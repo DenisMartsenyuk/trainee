@@ -4,19 +4,17 @@ import com.devexperts.entites.Item;
 import com.devexperts.entites.ShoppingBag;
 import com.devexperts.enums.ItemLocation;
 import com.devexperts.enums.ItemType;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ToString
 public class BaseStorage implements Storage {
     private final Map<Long, Item> fridgeMeat = new HashMap<>();
     private final Map<Long, Item> fridgeCheese = new HashMap<>();
     private final Map<Long, Item> fridge = new HashMap<>();
-    private final Map<Long, Item> shelve = new HashMap<>();
+    private final Map<Long, Item> shelf = new HashMap<>();
 
     @Override
     public void arrangeItemsFromBag(ShoppingBag bag) {
@@ -38,8 +36,8 @@ public class BaseStorage implements Storage {
                 }
                 fridge.put(item.getId(), item);
                 return;
-            case SHELVE:
-                shelve.put(item.getId(), item);
+            case SHELF:
+                shelf.put(item.getId(), item);
         }
     }
 
@@ -47,15 +45,15 @@ public class BaseStorage implements Storage {
     public ItemLocation whereIsItem(Long id) {
         if (fridge.containsKey(id)) {
             return ItemLocation.FRIDGE;
-        } else if (shelve.containsKey(id)) {
-            return ItemLocation.SHELVE;
+        } else if (shelf.containsKey(id)) {
+            return ItemLocation.SHELF;
         }
         return null;
     }
 
     private ItemLocation convert(ItemType type) {
         if (type == ItemType.OTHER) {
-            return ItemLocation.SHELVE;
+            return ItemLocation.SHELF;
         }
         return ItemLocation.FRIDGE;
     }
@@ -64,7 +62,7 @@ public class BaseStorage implements Storage {
     public Item getItem(Long id) {
         Item item = fridge.get(id);
         if (item == null) {
-            item = shelve.get(id);
+            item = shelf.get(id);
         }
         return item;
     }
@@ -74,8 +72,8 @@ public class BaseStorage implements Storage {
         switch (location) {
             case FRIDGE:
                 return new ArrayList<>(fridge.values());
-            case SHELVE:
-                return new ArrayList<>(shelve.values());
+            case SHELF:
+                return new ArrayList<>(shelf.values());
         }
         return new ArrayList<>();
     }
