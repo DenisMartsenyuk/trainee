@@ -2,6 +2,8 @@ package com.devexperts.entites;
 
 import com.devexperts.enums.ItemType;
 
+import java.util.Objects;
+
 public class Item {
 
     private final Long id;
@@ -9,7 +11,7 @@ public class Item {
     private final long price;
     private final String name;
 
-    public Item(long id, ItemType type, Long price, String name) {
+    public Item(Long id, ItemType type, long price, String name) {
         this.id = id;
         this.type = type;
         this.price = price;
@@ -30,6 +32,19 @@ public class Item {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return price == item.price && Objects.equals(id, item.id) && type == item.type && Objects.equals(name, item.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, price, name);
     }
 
     @Override
