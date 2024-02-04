@@ -69,7 +69,7 @@ public class BaseStorageTest {
                 () -> assertEquals(baseStorage.getAllMeat().size(), 0),
                 () -> assertEquals(baseStorage.getAllCheese().size(), 0),
                 () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.FRIDGE).size(), 0),
-                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELVE).size(), 0)
+                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELF).size(), 0)
         );
     }
 
@@ -86,7 +86,7 @@ public class BaseStorageTest {
                 () -> assertEquals(baseStorage.whereIsItem(id), ItemLocation.FRIDGE),
                 () -> assertEquals(baseStorage.getAllCheese().size(), 0),
                 () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.FRIDGE).size(), 1),
-                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELVE).size(), 0)
+                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELF).size(), 0)
         );
     }
 
@@ -103,21 +103,21 @@ public class BaseStorageTest {
                 () -> assertEquals(baseStorage.whereIsItem(id), ItemLocation.FRIDGE),
                 () -> assertEquals(baseStorage.getAllMeat().size(), 0),
                 () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.FRIDGE).size(), 1),
-                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELVE).size(), 0)
+                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELF).size(), 0)
         );
     }
 
     @Test
-    void oneShelveStorage() {
+    void oneShelfStorage() {
         Long id = 1L;
         Item item = new Item(id, ItemType.OTHER, 1L, "Toothbrush");
         Storage baseStorage = new BaseStorage();
         baseStorage.arrangeItem(item);
 
         assertAll(
-                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELVE).size(), 1),
+                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELF).size(), 1),
                 () -> assertEquals(baseStorage.getItem(id), item),
-                () -> assertEquals(baseStorage.whereIsItem(id), ItemLocation.SHELVE),
+                () -> assertEquals(baseStorage.whereIsItem(id), ItemLocation.SHELF),
                 () -> assertEquals(baseStorage.getAllMeat().size(), 0),
                 () -> assertEquals(baseStorage.getAllCheese().size(), 0),
                 () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.FRIDGE).size(), 0)
@@ -134,7 +134,7 @@ public class BaseStorageTest {
                 () -> assertEquals(baseStorage.getAllMeat().size(), 5),
                 () -> assertEquals(baseStorage.getAllCheese().size(), 5),
                 () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.FRIDGE).size(), 10),
-                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELVE).size(), 6)
+                () -> assertEquals(baseStorage.getItemsByLocation(ItemLocation.SHELF).size(), 6)
         );
     }
 
@@ -184,7 +184,7 @@ public class BaseStorageTest {
     }
 
     @Test
-    void shelveStorage() {
+    void shelfStorage() {
         ShoppingBag bag = createBigShoppingBag();
         Storage baseStorage = new BaseStorage();
         baseStorage.arrangeItemsFromBag(bag);
@@ -193,8 +193,27 @@ public class BaseStorageTest {
                 .filter(item -> item.getType() == ItemType.OTHER)
                 .collect(Collectors.toSet());
 
-        Set<Item> expectedIds = new HashSet<>(baseStorage.getItemsByLocation(ItemLocation.SHELVE));
+        Set<Item> expectedIds = new HashSet<>(baseStorage.getItemsByLocation(ItemLocation.SHELF));
 
         assertEquals(expectedIds, actualIds);
+    }
+
+    @Test
+    void checkSpoiledItems() {
+        ShoppingBag bag = createBigShoppingBag();
+        Storage baseStorage = new BaseStorage();
+        baseStorage.arrangeItemsFromBag(bag);
+
+        List<Item> onlyMeatAndCheese = baseStorage.getItemsByLocation(ItemLocation.FRIDGE);
+        assertEquals(0, onlyMeatAndCheese.stream()
+                .filter(it -> it.getType() != ItemType.CHEESE && it.getType() != ItemType.MEAT)
+                .count()
+        );
+
+        List<Item> onlyOther = baseStorage.getItemsByLocation(ItemLocation.SHELF);
+        assertEquals(0, onlyOther.stream()
+                .filter(it -> it.getType() != ItemType.OTHER)
+                .count()
+        );
     }
 }
