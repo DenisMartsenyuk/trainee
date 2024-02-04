@@ -31,6 +31,7 @@ public class Main {
         Storage storage = new BaseStorage();
         storage.arrangeItemsFromBag(shoppingBag);
 
+        System.out.println(storage);
 
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 public interface Storage {
     void arrangeItemsFromBag(ShoppingBag bag);
     void arrangeItem(Item item);
+
+
     ItemLocation whereIsItem(Long id);
     Item getItem(Long id);
     List<Item> getItemsByLocation(ItemLocation location);
