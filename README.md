@@ -1,0 +1,1 @@
+![Description diagram of the task.](docs/Description diagram.png)

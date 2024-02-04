@@ -7,7 +7,6 @@ import com.devexperts.enums.ItemLocation;
 import java.util.List;
 
 public interface Storage {
-
     void arrangeItemsFromBag(ShoppingBag bag);
     void arrangeItem(Item item);
     ItemLocation whereIsItem(Long id);
