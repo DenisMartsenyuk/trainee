@@ -62,7 +62,7 @@ public class BaseStorageTest {
     }
 
     @Test
-    void emptyStorage() {
+    void emptyStorageTest() {
         Storage baseStorage = new BaseStorage();
 
         assertAll(
