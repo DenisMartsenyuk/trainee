@@ -31,10 +31,10 @@ _As a reminder, meat may spoil on the shelf, and there is no need to store napki
 ## Installation
 Clone git repository
 ```
-git clone https://github.com/your_username_/Project-Name.git
+git clone https://github.com/DenisMartsenyuk/trainee.git
 ```
 Create branch with your first name and last name
 ```
-git branch master/firstname_secondname
+git branch main/firstname_secondname
 ```
-Commit your solution to your new branch :)
+Commit your solution to your new branch :smile:
