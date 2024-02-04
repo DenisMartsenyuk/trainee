@@ -1,1 +1,1 @@
-![Description diagram of the task.](docs/Description diagram.png)
+![Description diagram of the task.](./docs/description_diagram.png)
