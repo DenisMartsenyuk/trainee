@@ -30,7 +30,5 @@ public class Main {
         ShoppingBag shoppingBag = exampleShoppingBag();
         Storage storage = new BaseStorage();
         storage.arrangeItemsFromBag(shoppingBag);
-
-
     }
 }
